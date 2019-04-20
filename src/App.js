@@ -144,12 +144,14 @@ class App extends Component {
   // Await everything to load and set dependent states
   componentDidMount(){
     // Wait 1 secound and then displays data
+    /*
     setTimeout( () => {
       this.setState({serverData: fakeServerData});
     },1000);
     setTimeout(() => {
       this.setState({filterString: ''})
     }, 2000);
+    */
   }
 
   render() {
@@ -163,10 +165,11 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-        <h1>Playlist for</h1>
+        
         {renderUser 
           ?
           <div>
+            <h1>Playlist for</h1>
             <h2> 
               {renderUser.name}
             </h2>
@@ -185,8 +188,21 @@ class App extends Component {
           </div> 
           
           : 
-          <div style={defaultStyle}>
-            loading...
+          
+          
+          <div style={{"margin-top": "50px"}}>
+            <div style={defaultStyle}>
+              <h2 style={{'color': 'lightBlue'}}> Spotify API Testing page with React </h2>
+              <h4> Sign in to test the features </h4>
+              
+              <div className="signInForm" style={{'textTransform': "uppercase"}}>
+                <button type="button" style={{'backgroundColor': 'MediumSeaGreen', 'borderColor': 'none', 
+                                              'height': '50px', 'width': '150px', 'borderRadius': '30px'}}>
+                  <p> Sign in</p>
+                </button>
+              </div>
+              
+            </div>
           </div>
         }
         </header>
