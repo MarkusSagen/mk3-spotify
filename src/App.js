@@ -234,8 +234,8 @@ class App extends Component {
                 size="medium"
                 color="primary"
                 aria-label="Add"
-                onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
-                // onClick={() => window.location = 'https://localhost:8888/login'} >
+                //onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
+                onClick={() => window.location = 'https://localhost:8888/login'} >
                 Sign in to Spotify 
               </Fab>
 
