@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import beeGee from './img/bee_gee.jpeg';
 import './App.css';
 
@@ -18,22 +18,36 @@ let fakeServerData = {
     playlists: [
       {
         name: "Favorites",
-        songs: ["bear", "asdas", "22aasadasd"],
+        songs: [
+          {name: "Rosa", duration: 1234},  
+          {name: "bss", duration: 1234},  
+          {name: "GEEEr", duration: 1234}
+        ],
 
       },
       {
         name: "gg",
-        songs: ["AAAAA", "asdas", "22aasadasd"],
-
+        songs: [ 
+          {name: "bear", duration: 666},
+          {name: "Yellow", duration: 1234},
+        ],
       },
       {
         name: "bege",
-        songs: ["bear", "asdas", "22aasadasd"],
-
+        songs: [
+          {name: "bear", duration: 1234},
+          {name: "bear", duration: 7722},
+          {name: "bear", duration: 1234},
+          {name: "bear", duration: 420}
+        ],
       },
       {
         name: "aaa",
-        songs: ["asdasd", "asdas", "22aasadasd"],
+        songs: [
+          {name: "bear", duration: 1234},
+          {name: "bear", duration: 1234},
+          {name: "bear", duration: 999999}
+        ],
 
       },
     ]
@@ -50,7 +64,7 @@ class Filter extends Component {
   render() {
     return(
       <div>
-      <img/>
+      
       <input type="text"/>
     </div>
     )
@@ -62,7 +76,7 @@ class PlaylistContainer extends Component {
   render() {
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <img src={beeGee} style={{width: '150px', height: '150px'}}/>
+        <img alt="Album Cover" src={beeGee} style={{width: '150px', height: '150px'}}/>
         <h3> {this.props.playlists && this.props.playlists.length} </h3>
         <ul style ={{listStyle: 'none'}}>
           <li>Song 1 </li>
@@ -75,20 +89,24 @@ class PlaylistContainer extends Component {
 }
 
 class PlaylistCounter extends Component {
+  // Since playlist is garanteed to exist when rendered, we remove check here
   render() {
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <h3> {this.props.playlists && this.props.playlists.length} Playlists </h3>
+        <h3> {this.props.playlists.length} Playlists </h3>
       </div>
     )
   }
 }
 
 class PlaylistHours extends Component {
+  // Since playlist is garanteed to exist when rendered, we remove check here
+
+  let totPlaylistDurration = 
   render() {
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <h3> {this.props.playlists && this.props.playlists.length} Hours </h3>
+        <h3> {this.props.playlists.length} Hours </h3>
       </div>
     )
   }
@@ -115,8 +133,6 @@ class App extends Component {
     },1000);
   }
   render() {
-    let headerColor = 'red';
-
     return (
       <div className="App">
         <header className="App-header">
@@ -127,6 +143,7 @@ class App extends Component {
             <h2> 
               {this.state.serverData.user.name}
             </h2>
+            
             <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
             <PlaylistHours playlists={this.state.serverData.user.playlists}/>
             
