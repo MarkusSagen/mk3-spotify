@@ -7,6 +7,12 @@ import './App.css';
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 
 // Styles
 let defaultTextColor = '#fff';
@@ -15,21 +21,16 @@ let defaultStyle = {
   display: 'inline-block',
 }
 
-let signInButtonStyle = withStyles({
-  root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    borderRadius: 3,
-    border: 0,
-    color: 'white',
-    height: 48,
-    width: 400,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+const styles = theme => ({
+  margin: {
+    margin: theme.spacing.unit,
   },
-  label: {
-    textTransform: 'capitalize',
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
   },
-})(Fab);;
+});
+
+
 
 
 
@@ -87,7 +88,7 @@ class Filter extends Component {
   render() {
     return(
       <div>
-      
+      <p style={{color: '#ddd', fontSize: 'calc(8px + 2vmin)'}}> Filter Playlists</p>
       <input type="text" onKeyUp={e => 
         this.props.onTextChange(e.target.value)}/>
     </div>
@@ -117,17 +118,15 @@ class PlaylistCounter extends Component {
   // Since playlist is garanteed to exist when rendered, we remove check here
   render() {
     return(
-      <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <h3> {this.props.playlists.length} Playlists </h3>
+      <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 10px', width: '25%'}}>
+        <h3 style={{marginBottom: '0px'}}> Playlists Listed </h3>
+        <h3 style={{marginTop: '5px', color: 'lightBlue'}}> {this.props.playlists.length} </h3>
       </div>
     )
   }
 }
 
 class PlaylistHours extends Component {
-  // Since playlist is garanteed to exist when rendered, we remove check here
-
-  
   render() {
     // call this with allSongs.length
     let allSongs = this.props.playlists.reduce((songs, fEachPlaylist) => {
@@ -140,7 +139,8 @@ class PlaylistHours extends Component {
      },0)
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <h3> {totPlaylistDurration} Hours </h3>
+        <h3 style={{marginBottom: '0px'}}> Total Hours </h3>
+        <h3 style={{marginTop: '5px', color: 'lightBlue'}}> {totPlaylistDurration} </h3>
       </div>
     )
   }
@@ -188,9 +188,7 @@ class App extends Component {
             songs: []
           }
       })
-      }))
-  
-    
+    }))
   }
 
   render() {
@@ -208,25 +206,94 @@ class App extends Component {
         <header className="App-header">
         {this.state.user 
           ? <div>
-              <h1>Playlist for {this.state.user.name}</h1>
+              <h1>Playlist for <span style={{'color': '#fc4a22'}}>
+                {this.state.user.name}</span> 
+              </h1>
               <PlaylistCounter playlists={playlistToRender}/>
               <PlaylistHours playlists={playlistToRender}/> 
               <Filter onTextChange={text => this.setState({filterString: text})}/>
               
-              <div style={{width: '100%', height: '20px'}}></div>
+              <div style={{width: '100%', height: '10vh'}}></div>
               
              {playlistToRender.map(playlist => 
                 <PlaylistContainer playlists={playlist}/>
               )} 
             </div> 
-          : <button onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
-              Sign in with Spotify
-            </button>
+          // : <button onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
+          : 
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            alignContent: 'center',
+          }}>
+            <h2> Welcome to the test page for Spotifys API </h2>
+            <h4> Please sign in <span style={{'color': 'lightBlue'}}>below</span> to try it </h4>
+            <div style={{width: '100%', height: '50px'}}></div>
+            <Fab
+              variant="extended"
+              size="medium"
+              color="primary"
+              aria-label="Add"
+              onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
+              Sign in to Spotify 
+            </Fab>
 
+            <div>
+              <Card style={{'width': '400px', 'paddingTop': '25px', 'marginTop': '25px'}}>
+                <CardActionArea>
+                  <CardMedia
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Login to your spotify Account
+                    </Typography>
+                    <Typography component="p">
+                      Logs in and returns content from your account
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <a style={{'textDecoration': 'none'}} href="https://developer.spotify.com/documentation/web-api/reference/playlists/get-a-list-of-current-users-playlists/">
+                      Learn More
+                    </a>
+                  </Button>
+                </CardActions>
+              </Card>
+
+              <Card style={{'width': '400px', 'paddingTop': '25px', 'marginTop': '25px'}}>
+                <CardActionArea>
+                  <CardMedia
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Display current users Albums
+                    </Typography>
+                    <Typography component="p">
+                      Gets all playlists from the current logged in user and displays a maximum of 20 playlists
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <a style={{'textDecoration': 'none'}} href="https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/">
+                      Learn More
+                    </a>
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
+
+          </div>
         }
 
         </header>
-        <p className="reference" style={{}}> Made by Markus - 2019</p>
+        <p className="reference" style={{'color': 'lightGray'}}> Made by Markus - 2019</p>
       </div>
 
     );
