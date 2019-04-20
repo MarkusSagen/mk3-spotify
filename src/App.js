@@ -102,11 +102,20 @@ class PlaylistCounter extends Component {
 class PlaylistHours extends Component {
   // Since playlist is garanteed to exist when rendered, we remove check here
 
-  let totPlaylistDurration = 
+  
   render() {
+    // call this with allSongs.length
+    let allSongs = this.props.playlists.reduce((songs, fEachPlaylist) => {
+     return songs.concat(fEachPlaylist.songs) 
+    },[])
+    // call this with totPlaylistDurration.length
+    let totPlaylistDurration = allSongs.reduce((sum, eachSongs) => {
+      let totMilliSec = sum + eachSongs.duration
+      return Math.round( totMilliSec / 60 ) 
+     },0)
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <h3> {this.props.playlists.length} Hours </h3>
+        <h3> {totPlaylistDurration} Hours </h3>
       </div>
     )
   }
