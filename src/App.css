@@ -15,7 +15,7 @@ body, html {
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 90vh;
   /*display: flex;
   flex-direction: column;*/
   align-items: center;
@@ -33,7 +33,16 @@ h1 {
   color: #fc4a22;
 }
 
-.
+.reference {
+  /*display: flex;
+  flex-direction: column;*/
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8px + 1vmin);
+}
+
+
 
 @keyframes App-logo-spin {
   from {
