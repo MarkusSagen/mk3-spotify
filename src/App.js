@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import beeGee from './img/bee_gee.jpeg';
-import querystring from 'query-string';
+import queryString from 'query-string';
 import './App.css';
 
 // Import Material-UI for buttons
@@ -101,7 +101,7 @@ class PlaylistContainer extends Component {
     let playlist = this.props.playlists;
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
-        <img alt="Album Cover" src={beeGee} style={{width: '150px', height: '150px'}}/>
+        <img alt="Album Cover" src={playlist.imageUrl} style={{width: '150px', height: '150px'}}/>
         <h3> {playlist.name} </h3>
         <ul style ={{listStyle: 'none'}}>
           {playlist.songs.map(song => {
@@ -153,85 +153,78 @@ class PlaylistHours extends Component {
 
 // Main component for setting 
 class App extends Component {
-  // Initialize state in a constructor
-  constructor() {
-    super();
-    this.state = {
-      serverData: {},
-      showNrSongs: 3,
-      filterString: '',  
-    }
-  }
+    // Initialize state in a constructor
+    constructor() {
+      super();
+      this.state = {
+        serverData: {},
+        filterString: ''
+      }
+    };
 
-  // Await everything to load and set dependent states
-  componentDidMount(){
-    // Parse AccessToken from Spotify API in seach bar
-    let parsed = querystring.parsed();
-
-    // Wait 1 secound and then displays data
-    /*
-    setTimeout( () => {
-      this.setState({serverData: fakeServerData});
-    },1000);
-    setTimeout(() => {
-      this.setState({filterString: ''})
-    }, 2000);
-    */
+    componentDidMount() {
+      let parsed = queryString.parse(window.location.search);
+      let accessToken = parsed.access_token;
+      if (!accessToken)
+        return;
+      fetch('https://api.spotify.com/v1/me', {
+        headers: {'Authorization': 'Bearer ' + accessToken}
+      }).then(response => response.json())
+      .then(data => this.setState({
+        user: {
+          name: data.display_name
+        }
+      }))
+  
+      fetch('https://api.spotify.com/v1/me/playlists', {
+        headers: {'Authorization': 'Bearer ' + accessToken}
+      }).then(response => response.json())
+      .then(data => this.setState({
+        playlists: data.items.map(item => {
+          console.log(data.items)
+          return {
+            name: item.name,
+            imageUrl: item.images[0].url, 
+            songs: []
+          }
+      })
+      }))
+  
+    
   }
 
   render() {
     // Set to variable to shorten state call
-    let renderUser = this.state.serverData.user;
-    let playlistToRender = renderUser ? renderUser.playlists.filter(playlist => 
-      playlist.name.toLowerCase().includes(
-        this.state.filterString.toLowerCase())
-    ) : [];
+    let playlistToRender = 
+      this.state.user && 
+      this.state.playlists
+        ? this.state.playlists.filter(playlist => 
+            playlist.name.toLowerCase().includes(
+              this.state.filterString.toLowerCase())) 
+        : [];
 
     return (
       <div className="App">
         <header className="App-header">
-        
-        {renderUser 
-          ?
-          <div>
-            <h1>Playlist for</h1>
-            <h2> 
-              {renderUser.name}
-            </h2>
-            <Filter onTextChange={text => this.setState({filterString: text})}/>
-            <PlaylistCounter playlists={playlistToRender}/>
-            <PlaylistHours playlists={playlistToRender}/>
-            
-            <div style={{width: '100%', height: '20px'}}></div>
-            
-            {playlistToRender.map(playlists => {
-                return  <PlaylistContainer playlists={playlists}/>
-            })}
-            
-
-            
-          </div> 
-          
-          : 
-          
-          
-          <div style={{"margin-top": "50px"}}>
-            <div style={defaultStyle}>
-              <h2 style={{'color': 'lightBlue'}}> Spotify API Testing page with React </h2>
-              <h4> Sign in to test the features </h4>
+        {this.state.user 
+          ? <div>
+              <h1>Playlist for {this.state.user.name}</h1>
+              <PlaylistCounter playlists={playlistToRender}/>
+              <PlaylistHours playlists={playlistToRender}/> 
+              <Filter onTextChange={text => this.setState({filterString: text})}/>
               
-              <div className="signInForm" style={{'textTransform': "uppercase"}}>
-                <Fab onClick={() => 
-                  window.location = 'http://localhost:8888/login'
-                } classes={signInButtonStyle} variant="extended" size="medium" width="120px" color="primary" aria-label="Add">
-                  Extended
-                </Fab>
-              </div>
-
+              <div style={{width: '100%', height: '20px'}}></div>
               
-            </div>
-          </div>
+             {playlistToRender.map(playlist => 
+                <PlaylistContainer playlists={playlist}/>
+              )} 
+            </div> 
+          : <button onClick={() => window.location = 'http://localhost:8888/login'} >
+              Sign in with Spotify
+            </button>
+
         }
+
         </header>
         <p className="reference" style={{}}> Made by Markus - 2019</p>
       </div>
