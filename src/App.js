@@ -26,27 +26,28 @@ let fakeServerData = {
 
       },
       {
-        name: "gg",
+        name: "My Weekly",
         songs: [ 
           {name: "bear", duration: 666},
+          {name: "Grills", duration: 1337},
           {name: "Yellow", duration: 1234},
         ],
       },
       {
-        name: "bege",
+        name: "Discover weekly",
         songs: [
           {name: "bear", duration: 1234},
-          {name: "bear", duration: 7722},
-          {name: "bear", duration: 1234},
+          {name: "bears", duration: 7722},
+          {name: "all", duration: 1234},
           {name: "bear", duration: 420}
         ],
       },
       {
-        name: "aaa",
+        name: "Disco",
         songs: [
-          {name: "bear", duration: 1234},
-          {name: "bear", duration: 1234},
-          {name: "bear", duration: 999999}
+          {name: "file", duration: 1234},
+          {name: "to", duration: 1234},
+          {name: "file", duration: 97999}
         ],
 
       },
@@ -65,7 +66,8 @@ class Filter extends Component {
     return(
       <div>
       
-      <input type="text"/>
+      <input type="text" onKeyUp={e => 
+        this.props.onTextChange(e.target.value)}/>
     </div>
     )
   }
@@ -74,14 +76,15 @@ class Filter extends Component {
 
 class PlaylistContainer extends Component {
   render() {
+    let playlist = this.props.playlists;
     return(
       <div className="PlaylistComponent" style={{...defaultStyle, padding: '40px 20px', width: '25%'}}>
         <img alt="Album Cover" src={beeGee} style={{width: '150px', height: '150px'}}/>
-        <h3> {this.props.playlists && this.props.playlists.length} </h3>
+        <h3> {playlist.name} </h3>
         <ul style ={{listStyle: 'none'}}>
-          <li>Song 1 </li>
-          <li>Song 2 </li>
-          <li>Song 3 </li>
+          {playlist.songs.map(song => {
+            return <li> {song.name} </li>
+          })}
         </ul>
       </div>
     )
@@ -131,7 +134,11 @@ class App extends Component {
   // Initialize state in a constructor
   constructor() {
     super();
-    this.state = {serverData: {}}
+    this.state = {
+      serverData: {},
+      showNrSongs: 3,
+      filterString: '',  
+    }
   }
 
   // Await everything to load and set dependent states
@@ -140,30 +147,37 @@ class App extends Component {
     setTimeout( () => {
       this.setState({serverData: fakeServerData});
     },1000);
+    setTimeout(() => {
+      this.setState({filterString: ''})
+    }, 2000);
   }
+
   render() {
+    // Set to variable to shorten state call
+    let user = this.state.serverData.user;
     return (
       <div className="App">
         <header className="App-header">
         <h1>Playlist for</h1>
-        {this.state.serverData.user 
+        {user 
           ?
           <div>
             <h2> 
-              {this.state.serverData.user.name}
+              {user.name}
             </h2>
-            
-            <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
-            <PlaylistHours playlists={this.state.serverData.user.playlists}/>
+            <Filter onTextChange={text => this.setState({filterString: text})}/>
+            <PlaylistCounter playlists={user.playlists}/>
+            <PlaylistHours playlists={user.playlists}/>
             
             <div style={{width: '100%', height: '20px'}}></div>
             
-            <PlaylistContainer/>
-            <PlaylistContainer/>
-            <PlaylistContainer/>
-            <PlaylistContainer/>
-            <PlaylistContainer/>
-            <PlaylistContainer/>
+            {user.playlists.filter(playlist => 
+              playlist.name.toLowerCase().includes(
+                this.state.filterString.toLowerCase())
+              ).map(playlists => {
+                return  <PlaylistContainer playlists={playlists}/>
+            })}
+            
           </div> 
           
           : 
@@ -171,9 +185,6 @@ class App extends Component {
             loading...
           </div>
         }
-          <Filter/>
-          
-          
         </header>
 
       </div>
