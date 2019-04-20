@@ -219,78 +219,77 @@ class App extends Component {
                 <PlaylistContainer playlists={playlist}/>
               )} 
             </div> 
-          // : <button onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
           : 
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            alignContent: 'center',
-          }}>
-            <h2> Welcome to the test page for Spotifys API </h2>
-            <h4> Please sign in <span style={{'color': 'lightBlue'}}>below</span> to try it </h4>
-            <div style={{width: '100%', height: '50px'}}></div>
-            <Fab
-              variant="extended"
-              size="medium"
-              color="primary"
-              aria-label="Add"
-              // onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
-              onClick={() => window.location = 'https://localhost:8888/login'} >
-              Sign in to Spotify 
-            </Fab>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              alignContent: 'center',
+            }}>
+              <h2> Welcome to the test page for Spotifys API </h2>
+              <h4> Please sign in <span style={{'color': 'lightBlue'}}>below</span> to try it </h4>
+              <div style={{width: '100%', height: '50px'}}></div>
+              <Fab
+                variant="extended"
+                size="medium"
+                color="primary"
+                aria-label="Add"
+                onClick={() => window.location = 'https://mk3-spotify-backend.herokuapp.com/login'} >
+                // onClick={() => window.location = 'https://localhost:8888/login'} >
+                Sign in to Spotify 
+              </Fab>
 
-            <div>
-              <Card style={{'width': '400px', 'paddingTop': '25px', 'marginTop': '25px'}}>
-                <CardActionArea>
-                  <CardMedia
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="Contemplative Reptile"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Login to your spotify Account
-                    </Typography>
-                    <Typography component="p">
-                      Logs in and returns content from your account
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    <a style={{'textDecoration': 'none'}} href="https://developer.spotify.com/documentation/web-api/reference/playlists/get-a-list-of-current-users-playlists/">
-                      Learn More
-                    </a>
-                  </Button>
-                </CardActions>
-              </Card>
+              <div>
+                <Card style={{'width': '400px', 'paddingTop': '25px', 'marginTop': '25px'}}>
+                  <CardActionArea>
+                    <CardMedia
+                      image="/static/images/cards/contemplative-reptile.jpg"
+                      title="Contemplative Reptile"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        Login to your spotify Account
+                      </Typography>
+                      <Typography component="p">
+                        Logs in and returns content from your account
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      <a style={{'textDecoration': 'none'}} href="https://developer.spotify.com/documentation/web-api/reference/playlists/get-a-list-of-current-users-playlists/">
+                        Learn More
+                      </a>
+                    </Button>
+                  </CardActions>
+                </Card>
 
-              <Card style={{'width': '400px', 'paddingTop': '25px', 'marginTop': '25px'}}>
-                <CardActionArea>
-                  <CardMedia
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="Contemplative Reptile"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Display current users Albums
-                    </Typography>
-                    <Typography component="p">
-                      Gets all playlists from the current logged in user and displays a maximum of 20 playlists
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    <a style={{'textDecoration': 'none'}} href="https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/">
-                      Learn More
-                    </a>
-                  </Button>
-                </CardActions>
-              </Card>
+                <Card style={{'width': '400px', 'paddingTop': '25px', 'marginTop': '25px'}}>
+                  <CardActionArea>
+                    <CardMedia
+                      image="/static/images/cards/contemplative-reptile.jpg"
+                      title="Contemplative Reptile"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        Display current users Albums
+                      </Typography>
+                      <Typography component="p">
+                        Gets all playlists from the current logged in user and displays a maximum of 20 playlists
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      <a style={{'textDecoration': 'none'}} href="https://developer.spotify.com/documentation/web-api/reference/users-profile/get-current-users-profile/">
+                        Learn More
+                      </a>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+
             </div>
-
-          </div>
         }
 
         </header>
