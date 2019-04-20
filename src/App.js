@@ -154,27 +154,29 @@ class App extends Component {
 
   render() {
     // Set to variable to shorten state call
-    let user = this.state.serverData.user;
+    let renderUser = this.state.serverData.user;
+    let playlistToRender = renderUser ? renderUser.playlists.filter(playlist => 
+      playlist.name.toLowerCase().includes(
+        this.state.filterString.toLowerCase())
+    ) : [];
+
     return (
       <div className="App">
         <header className="App-header">
         <h1>Playlist for</h1>
-        {user 
+        {renderUser 
           ?
           <div>
             <h2> 
-              {user.name}
+              {renderUser.name}
             </h2>
             <Filter onTextChange={text => this.setState({filterString: text})}/>
-            <PlaylistCounter playlists={user.playlists}/>
-            <PlaylistHours playlists={user.playlists}/>
+            <PlaylistCounter playlists={playlistToRender}/>
+            <PlaylistHours playlists={playlistToRender}/>
             
             <div style={{width: '100%', height: '20px'}}></div>
             
-            {user.playlists.filter(playlist => 
-              playlist.name.toLowerCase().includes(
-                this.state.filterString.toLowerCase())
-              ).map(playlists => {
+            {playlistToRender.map(playlists => {
                 return  <PlaylistContainer playlists={playlists}/>
             })}
             
